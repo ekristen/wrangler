@@ -79,7 +79,7 @@ func (r *Router) admit(response *Response, request *v1.AdmissionRequest, req *ht
 				Context:          req.Context(),
 				objTemplate:      m.getObjType(),
 			})
-			logrus.Debugf("admit result: %s %s %s user=%s allowed=%v err=%v", request.Operation, request.Kind.String(), resourceString(request.Namespace, request.Name), request.UserInfo.Username, response.Allowed, err)
+			logrus.Tracef("admit result: %s %s %s user=%s allowed=%v err=%v", request.Operation, request.Kind.String(), resourceString(request.Namespace, request.Name), request.UserInfo.Username, response.Allowed, err)
 			return err
 		}
 	}

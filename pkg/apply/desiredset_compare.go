@@ -207,7 +207,7 @@ func applyPatch(gvk schema.GroupVersionKind, reconciler Reconciler, patcher Patc
 		return false, nil
 	}
 
-	logrus.Debugf("DesiredSet - Patch %s %s/%s for %s -- [PATCH:%s, ORIGINAL:%s, MODIFIED:%s, CURRENT:%s]", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID, patch, original, modified, current)
+	logrus.Tracef("DesiredSet - Patch %s %s/%s for %s -- [PATCH:%s, ORIGINAL:%s, MODIFIED:%s, CURRENT:%s]", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID, patch, original, modified, current)
 	if reconciler != nil {
 		newObject, err := prepareObjectForCreate(gvk, newObject)
 		if err != nil {
@@ -229,7 +229,7 @@ func applyPatch(gvk schema.GroupVersionKind, reconciler Reconciler, patcher Patc
 		}
 	}
 
-	logrus.Debugf("DesiredSet - Updated %s %s/%s for %s -- %s %s", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID, patchType, patch)
+	logrus.Tracef("DesiredSet - Updated %s %s/%s for %s -- %s %s", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID, patchType, patch)
 	_, err = patcher(oldMetadata.GetNamespace(), oldMetadata.GetName(), patchType, patch)
 
 	return true, err
@@ -259,7 +259,7 @@ func (o *desiredSet) compareObjects(gvk schema.GroupVersionKind, reconciler Reco
 	if ran, err := applyPatch(gvk, reconciler, patcher, debugID, o.ignorePreviousApplied, oldObject, newObject, diffPatches); err != nil {
 		return err
 	} else if !ran {
-		logrus.Debugf("DesiredSet - No change(2) %s %s/%s for %s", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID)
+		logrus.Tracef("DesiredSet - No change(2) %s %s/%s for %s", gvk, oldMetadata.GetNamespace(), oldMetadata.GetName(), debugID)
 	}
 
 	return nil

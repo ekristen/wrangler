@@ -164,7 +164,7 @@ func (s *Schemas) importType(t reflect.Type, overrides ...reflect.Type) (*Schema
 	}
 
 	if s, ok := s.processingTypes[t]; ok {
-		logrus.Debugf("Returning half built schema %s for %v", typeName, t)
+		logrus.Tracef("Returning half built schema %s for %v", typeName, t)
 		return s, nil
 	}
 
@@ -250,7 +250,7 @@ func (s *Schemas) readFields(schema *Schema, t reflect.Type) error {
 		}
 
 		if skippedNames[fieldName] {
-			logrus.Debugf("Ignoring skip field %s.%s for %v", schema.ID, fieldName, field)
+			logrus.Tracef("Ignoring skip field %s.%s for %v", schema.ID, fieldName, field)
 			continue
 		}
 

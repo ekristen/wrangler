@@ -304,7 +304,7 @@ func (o *desiredSet) process(debugID string, set labels.Selector, gvk schema.Gro
 			o.err(errors.Wrapf(err, "failed to create %s %s for %s", k, gvk, debugID))
 			return
 		}
-		logrus.Debugf("DesiredSet - Created %s %s for %s", gvk, k, debugID)
+		logrus.Tracef("DesiredSet - Created %s %s for %s", gvk, k, debugID)
 	}
 
 	deleteF := func(k objectset.ObjectKey, force bool) {
@@ -312,7 +312,7 @@ func (o *desiredSet) process(debugID string, set labels.Selector, gvk schema.Gro
 			o.err(errors.Wrapf(err, "failed to delete %s %s for %s", k, gvk, debugID))
 			return
 		}
-		logrus.Debugf("DesiredSet - Delete %s %s for %s", gvk, k, debugID)
+		logrus.Tracef("DesiredSet - Delete %s %s for %s", gvk, k, debugID)
 	}
 
 	updateF := func(k objectset.ObjectKey) {
