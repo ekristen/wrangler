@@ -360,13 +360,18 @@ func (a *{{.lowerName}}StatusHandler) sync(key string, obj *{{.version}}.{{.type
 		newStatus = *origStatus.DeepCopy()
 	}
 
-	if a.condition != "" && err != nil {
-		if errors.IsConflict(err) {
+	if a.condition != "" {
+		if err == nil {
 			a.condition.SetError(&newStatus, "", nil)
 		} else {
-			a.condition.SetError(&newStatus, "", err)
+			if errors.IsConflict(err) {
+				a.condition.SetError(&newStatus, "", nil)
+			} else {
+				a.condition.SetError(&newStatus, "", err)
+			}
 		}
 	}
+
 	if !equality.Semantic.DeepEqual(origStatus, &newStatus) {
 		if a.condition != "" {
 			// Since status has changed, update the lastUpdatedTime
