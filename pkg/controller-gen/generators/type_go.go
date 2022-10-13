@@ -362,7 +362,9 @@ func (a *{{.lowerName}}StatusHandler) sync(key string, obj *{{.version}}.{{.type
 
 	if a.condition != "" {
 		if err == nil {
-			a.condition.SetError(&newStatus, "", nil)
+			if a.condition.IsFalse(&newStatus) || a.condition.GetReason(&newStatus) == "Error" {
+				a.condition.SetError(&newStatus, "", nil)
+			}
 		} else {
 			if errors.IsConflict(err) {
 				a.condition.SetError(&newStatus, "", nil)
